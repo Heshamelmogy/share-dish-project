@@ -62,7 +62,7 @@ const Messages: React.FC = () => {
       if (!user) return;
       
       try {
-        const response = await axios.get(`http://localhost:5000/api/users/firebase/${user.uid}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/users/firebase/${user.uid}`);
         setMongoUserId(response.data._id);
       } catch (err) {
         console.error('Error fetching MongoDB user ID:', err);
@@ -80,7 +80,7 @@ const Messages: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get(`http://localhost:5000/api/chat/user/${mongoUserId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/chat/user/${mongoUserId}`);
         setChats(response.data);
       } catch (err) {
         console.error('Error fetching chats:', err);
@@ -116,14 +116,14 @@ const Messages: React.FC = () => {
         text: message
       });
 
-      await axios.post(`http://localhost:5000/api/chat/${selectedChat.post._id}/message`, {
+      await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/chat/${selectedChat.post._id}/message`, {
         sender: mongoUserId,
         receiver: otherUser._id,
         text: message
       });
 
       // Refresh the selected chat
-      const chatResponse = await axios.get(`http://localhost:5000/api/chat/${selectedChat.post._id}/${mongoUserId}/${otherUser._id}`);
+      const chatResponse = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/chat/${selectedChat.post._id}/${mongoUserId}/${otherUser._id}`);
       const updatedChat = { ...selectedChat, messages: chatResponse.data };
       setSelectedChat(updatedChat);
       

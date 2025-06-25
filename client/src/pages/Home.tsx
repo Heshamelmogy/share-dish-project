@@ -55,7 +55,7 @@ const Home: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get('http://localhost:5000/api/posts');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/posts`);
         console.log('Fetched posts:', response.data);
         setPosts(response.data);
       } catch (err) {
@@ -77,7 +77,7 @@ const Home: React.FC = () => {
   const handleDelete = async (postId: string) => {
     if (!window.confirm('Are you sure you want to delete this post?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/posts/${postId}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/posts/${postId}`);
       setPosts(posts.filter(p => p._id !== postId));
     } catch (err) {
       alert('Failed to delete post.');
@@ -86,7 +86,7 @@ const Home: React.FC = () => {
 
   const handleReserve = async (postId: string) => {
     try {
-      const response = await axios.patch(`http://localhost:5000/api/posts/${postId}/reserve`);
+      const response = await axios.patch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/posts/${postId}/reserve`);
       setPosts(posts.map(p => p._id === postId ? { ...p, reserved: true } : p));
     } catch (err) {
       alert('Failed to mark as reserved.');

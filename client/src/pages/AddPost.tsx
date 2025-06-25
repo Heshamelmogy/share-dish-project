@@ -45,7 +45,7 @@ const AddPost: React.FC = () => {
       if (!user) return;
       
       try {
-        const response = await axios.get(`http://localhost:5000/api/users/firebase/${user.uid}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/users/firebase/${user.uid}`);
         setMongoUserId(response.data._id);
       } catch (err) {
         console.error('Error fetching MongoDB user ID:', err);
@@ -65,7 +65,7 @@ const AddPost: React.FC = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post('http://localhost:5000/api/posts/upload', formData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/posts/upload`, formData);
       setPhoto(response.data.url);
       setError(null);
     } catch (err) {
@@ -126,7 +126,7 @@ const AddPost: React.FC = () => {
       };
 
       console.log('Submitting post data:', postData);
-      const response = await axios.post('http://localhost:5000/api/posts', postData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/posts`, postData);
       console.log('Post created successfully:', response.data);
       
       // Navigate to home page after successful post creation

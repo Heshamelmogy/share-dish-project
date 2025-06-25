@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
       if (!user) return;
       console.log('Current Firebase UID:', user.uid);
       try {
-        const response = await axios.get(`http://localhost:5000/api/users/firebase/${user.uid}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/users/firebase/${user.uid}`);
         console.log('MongoDB user fetch response:', response);
         console.log('MongoDB user fetch response.data:', response.data);
         setMongoUserId(response.data._id);
@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
       if (!mongoUserId) return;
       
       try {
-        const response = await axios.get(`http://localhost:5000/api/messages/unread/${mongoUserId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/messages/unread/${mongoUserId}`);
         setUnreadCount(response.data.count);
       } catch (err) {
         console.error('Error fetching unread count:', err);

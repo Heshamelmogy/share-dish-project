@@ -123,7 +123,7 @@ const Login: React.FC = () => {
 
         // Create user profile in our database
         try {
-          const response = await axios.post('http://localhost:5000/api/users/profile', {
+          const response = await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/users/profile`, {
             firebaseUid: userCredential.user.uid,
             email: userCredential.user.email,
             firstName,
@@ -154,13 +154,13 @@ const Login: React.FC = () => {
 
         // Check if user exists in MongoDB
         try {
-          const response = await axios.get(`http://localhost:5000/api/users/firebase/${userCredential.user.uid}`);
+          const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/users/firebase/${userCredential.user.uid}`);
           console.log('MongoDB user check response:', response.data);
           
           if (!response.data) {
             // If user doesn't exist in MongoDB, create it
             console.log('Creating MongoDB user profile...');
-            const createResponse = await axios.post('http://localhost:5000/api/users/profile', {
+            const createResponse = await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/users/profile`, {
               firebaseUid: userCredential.user.uid,
               email: userCredential.user.email,
               firstName: '', // These will be empty for existing users
