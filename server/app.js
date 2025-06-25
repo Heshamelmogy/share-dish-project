@@ -34,7 +34,8 @@ const http = require('http');
 const { Server } = require('socket.io');
 
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = 'mongodb+srv://heshamelmogy14:Io3nW2HKW9TaBbgN@share-dish.qxe9vey.mongodb.net/share-dish?retryWrites=true&w=majority&appName=share-dish';
+const MONGO_URI = process.env.MONGO_URI;
+console.log('Using MONGO_URI:', MONGO_URI);
 
 // Connect to MongoDB with updated options
 mongoose.connect(MONGO_URI, {
